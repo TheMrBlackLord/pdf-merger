@@ -1,7 +1,12 @@
 import React from 'react';
+import Merger from './components/Merger';
 
 function App() {
-  return (<div>dfg</div>);
+  return (
+    <main className='main'>
+      <Merger />
+    </main>
+  );
 }
 
 export default App;
