@@ -17,7 +17,7 @@ const Merger = () => {
             maxSize={20}
             handleChange={handleChange}
          />
-         {files.length > 0 && <FileList files={files}/>}
+         {files.length > 0 && <FileList files={files} setFiles={setFiles}/>}
       </div>
    );
 };
