@@ -1,7 +1,5 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
-// import Draggable from 'react-draggable';
-// import ReactDragListView from 'react-drag-listview'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import FileComponent from './FileComponent';
 
 interface FileListProps {
@@ -10,68 +8,46 @@ interface FileListProps {
 }
 
 const FileList: FC<FileListProps> = ({ files, setFiles }) => {
-   const onDragEnd = () => { 
-      console.log('drag end')
+   const onDragEnd = (droppedItem: DropResult) => {
+      if (!droppedItem.destination) return;
+      let updatedList = [...files];
+      const [reorderedItem] = updatedList.splice(droppedItem.source.index, 1);
+      updatedList.splice(droppedItem.destination.index, 0, reorderedItem);
+      setFiles(updatedList);
    };
    return (
-      <div className="">
-         {/* {files.map(file => {
-            return (
-               <Draggable
-                  key={file.name}
-                  handle=".handle"
-                  bounds=".fileList"
-                  nodeRef={nodeRef}
+      <DragDropContext onDragEnd={onDragEnd}>
+         <Droppable droppableId="fileList" direction='horizontal'>
+            {provided => (
+               <div
+                  className="fileList"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
                >
-                  <div className="handle" ref={nodeRef}>
-                     <FileComponent file={file} />
-                  </div>
-               </Draggable>
-            );
-         })} */}
-         {/* <ReactDragListView
-            nodeSelector=".file"
-            onDragEnd={() => console.log('end')}
-            lineClassName="fileList"
-         >
-            {files.map(file => {
-               return <FileComponent file={file} key={file.name} />;
-            })}
-         </ReactDragListView> */}
-
-         <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="fileList">
-               {provided => (
-                  <div
-                     className="fileList"
-                     {...provided.droppableProps}
-                     ref={provided.innerRef}
-                  >
-                     {files.map((file, index) => {
-                        return (
-                           <Draggable
-                              key={file.name}
-                              index={index}
-                              draggableId="file"
-                           >
-                              {provided => (
-                                 <div
-                                    ref={provided.innerRef}
-                                    {...provided.dragHandleProps}
-                                    {...provided.draggableProps}
-                                 >
-                                    <FileComponent file={file} />
-                                 </div>
-                              )}
-                           </Draggable>
-                        );
-                     })}
-                     {provided.placeholder}
-                  </div>
-               )}
-            </Droppable>
-         </DragDropContext>
-      </div>
+                  {files.map((file, index) => {
+                     return (
+                        <Draggable
+                           key={file.name}
+                           index={index}
+                           draggableId={file.name}
+                        >
+                           {provided => (
+                              <div
+                                 ref={provided.innerRef}
+                                 {...provided.dragHandleProps}
+                                 {...provided.draggableProps}
+                              >
+                                 <FileComponent file={file} />
+                              </div>
+                           )}
+                        </Draggable>
+                     );
+                  })}
+                  {provided.placeholder}
+               </div>
+            )}
+         </Droppable>
+      </DragDropContext>
    );
 };
 
