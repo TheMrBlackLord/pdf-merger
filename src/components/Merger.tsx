@@ -36,7 +36,7 @@ const Merger = () => {
          <FileUploader
             types={types}
             multiple={true}
-            maxSize={20}
+            maxSize={100}
             handleChange={handleChange}
          />
          {files.length > 0 && (

@@ -16,14 +16,15 @@
    height: 90%;
    border: 3px solid $gray;
    border-radius: 30px;
+   overflow: hidden;
 }
 .fileList {
    display: flex;
    justify-content: center;
    align-items: center;
+   flex-wrap: wrap;
    position: relative;
    width: 90%;
-   height: 50%;
    gap: 20px;
 }
 .fileContainer {
