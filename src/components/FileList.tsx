@@ -15,6 +15,9 @@ const FileList: FC<FileListProps> = ({ files, setFiles }) => {
       updatedList.splice(droppedItem.destination.index, 0, reorderedItem);
       setFiles(updatedList);
    };
+   const deleteFile = (name: string) => {
+      setFiles(files.filter(file => file.name !== name));
+   };
    return (
       <DragDropContext onDragEnd={onDragEnd}>
          <Droppable droppableId="fileList" direction='horizontal'>
@@ -37,7 +40,7 @@ const FileList: FC<FileListProps> = ({ files, setFiles }) => {
                                  {...provided.dragHandleProps}
                                  {...provided.draggableProps}
                               >
-                                 <FileComponent file={file} />
+                                 <FileComponent file={file} deleteFile={deleteFile}/>
                               </div>
                            )}
                         </Draggable>

@@ -26,6 +26,12 @@
    height: 50%;
    gap: 20px;
 }
+.fileContainer {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 10px;
+}
 .file {
    width: $fileSize;
    height: $fileSize;
