@@ -22,17 +22,14 @@ const Merger = () => {
       e.preventDefault();
       setIsLoading(true);
 
-      const buffers = await Promise.all(files.map(async (file) => {
-         return file.arrayBuffer();
-      }));
-
-      for (const buffer of buffers) {
+      for (const file of files) {
+         const buffer = await file.arrayBuffer();
          await merger.add(buffer);
       }
 
       await merger.save(saveName);
 
-      setIsLoading(true);
+      setIsLoading(false);
    }
    return (
       <div className="merger">
@@ -55,7 +52,7 @@ const Merger = () => {
                   ></input>
                   <button
                      type="submit"
-                     className="btn btn-primary"
+                     className="btn btn-primary saveBtn"
                      disabled={!saveName || isLoading}
                   >
                      Save
